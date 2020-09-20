@@ -18,6 +18,17 @@ const App = () => {
     }
 
     const addProductToList = (productValues: ProductFormValues) => {
+        if (!productValues.id) {
+            let idIsDuplicate = true
+
+            while (idIsDuplicate) {
+                productValues.id = (Math.round(Math.random() * 10000)).toString()
+                const itemWithSameId = list.find((item: ListItem) => item.id === productValues.id)
+                if (!itemWithSameId) {
+                    idIsDuplicate = false
+                }
+            }
+        }
         dispatch({ type: PRODUCT_LIST.ADD_ITEM, payload: productValues })
         setAddProductDrawerVisible(false)
     }
@@ -83,6 +94,7 @@ type ProductFormValues = {
     measurementUnit: string,
     quantity: number,
     price: number,
+    id: string,
 }
 
 type ProductFormDrawerProps = {
@@ -171,7 +183,7 @@ const ProductFormDrawer: React.FC<ProductFormDrawerProps> = (props) => {
                 <Row gutter={8}>
                     <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                         <Form.Item
-                            label="Quantidade"
+                            label="Quantidade (na embalagem)"
                             name="quantity"
                         >
                             <InputNumber/>
