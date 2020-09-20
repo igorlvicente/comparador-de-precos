@@ -10,7 +10,7 @@ const keys: { value: string, label?: JSX.Element | string, type?: 'primary' | 'd
     { value: '1', label: '1' },
     { value: '2', label: '2' },
     { value: '3', label: '3' },
-    { value: 'X', label: <CloseOutlined />, type: 'dashed' },
+    { value: 'X', label: <CloseOutlined/>, type: 'dashed' },
     { value: '4', label: '4' },
     { value: '5', label: '5' },
     { value: '6', label: '6' },
@@ -39,10 +39,10 @@ const Keypad: React.FC<CalculatorContentProps> = (props) => {
                         lg={key.colSize || 6}
                         xl={key.colSize || 6}
                         xxl={key.colSize || 6}
+                        key={key.value}
                     >
                         <Button
                             block
-                            key={key.value}
                             size="large"
                             onClick={() => onPress(key.value)}
                             type={key.type}
