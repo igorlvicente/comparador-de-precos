@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import 'antd/dist/antd.css'
 import { List, Space, Button, Drawer, Form, Input, Select, Row, Col, InputNumber, Affix } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
-import CurrencyInput from './components/molecules/CurrencyInput/CurrencyInput'
+import { PlusOutlined, EyeOutlined, TagsOutlined, TagOutlined } from '@ant-design/icons'
 import { useTypedSelector } from './store/reducer'
 import { ListItem } from './types/productList'
 import { useDispatch } from 'react-redux'
 import { PRODUCT_LIST } from './store/actionTypes'
+import styled from 'styled-components'
+import CurrencyInput from './components/molecules/CurrencyInput/CurrencyInput'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -51,18 +52,21 @@ const App = () => {
                     size="small"
                     dataSource={list}
                     renderItem={(item: ListItem) => (
-                        <List.Item
+                        <ListItemBody
                             key={item.name}
-                            actions={[
-                                <IconText text="156" key="list-vertical-star-o"/>,
-                                <IconText text="156" key="list-vertical-like-o"/>,
-                                <IconText text="2" key="list-vertical-message"/>,
-                            ]}
                         >
-                            <List.Item.Meta
-                                title={item.name}
-                            />
-                        </List.Item>
+                                <ListItemDescription>
+                                    <p className="title">{item.name}</p>
+                                    <p className="cheaper-description">
+                                        <TagOutlined className="price-tag-icon"/> 800g em Brasão Supermercados
+                                    </p>
+                                    {/*<TagsOutlined /> 800g em Brasão Supermercados</p>*/}
+                                </ListItemDescription>
+                                <Space>
+                                    <Button icon={<EyeOutlined/>}/>
+                                    <Button icon={<PlusOutlined/>}/>
+                                </Space>
+                        </ListItemBody>
                     )}
                 />
             }
@@ -81,13 +85,6 @@ const App = () => {
 }
 
 export default App
-
-
-const IconText: React.FC<{ text: string }> = ({ text, children }) => (
-    <Space>
-        {text || children}
-    </Space>
-)
 
 type ProductFormValues = {
     name: string,
@@ -203,3 +200,21 @@ const ProductFormDrawer: React.FC<ProductFormDrawerProps> = (props) => {
         </Form>
     )
 }
+
+const ListItemBody = styled.span`
+    display: flex;
+    flex-direction: row;
+    margin: 8px;
+    justify-content: space-between;
+`
+
+const ListItemDescription = styled.div`
+    & .title {
+        font-weight: bold;
+        margin: 0;
+    }
+    
+    & .price-tag-icon {
+        color: green;
+    }
+`
